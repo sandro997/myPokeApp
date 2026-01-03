@@ -1,158 +1,48 @@
-import PokeCard from "@components/pokeCard/PokeCard";
-import usePokeCardSize from "@hooks/usePokeCardSize/usePokeCardSize";
 import usePokeCardVirtualizer from "@hooks/usePokeGridVirtualizer/usePokeGridVirtualizer";
-import { useRef, useState } from "react";
+import { useState } from "react";
+import PokeListCell from "@components/PokeListCell/PokeListCell";
+
 
 function PokeList() {
-    const parentRef = useRef<HTMLDivElement>(null)
-    const [containerWidth, _setContainerWidth] = useState<number>(470);
-    const [itemsPerRow, _setPokePerRow] = useState(3)
-    const { cardSize } = usePokeCardSize({ containerWidth, itemsPerRow, itemsGap: 16, rowPadding: 16 });
-    const extraRows = 0;
-    const rowsGap = 20
 
-    const listTest = [
-        'bulbasaur',
-        'pikachu',
-        'charmander',
-        'squirtle',
-        'eevee',
-        'jigglypuff',
-        'snorlax',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-        'test',
-    ];
+  //36 elementi
+  const listTest = [
+    'bulbasaur', 'pikachu', 'charmander', 'squirtle', 'eevee',
+    'jigglypuff', 'snorlax', 'test', 'test', 'test', 'test',
+    'test', 'bulbasaur', 'pikachu', 'charmander', 'squirtle', 'eevee',
+    'jigglypuff', 'snorlax', 'test', 'test', 'test', 'test',
+    'test', 'bulbasaur', 'pikachu', 'charmander', 'squirtle', 'eevee',
+    'jigglypuff', 'snorlax', 'test', 'test', 'test', 'test',
+    'test'
+  ];
 
-    const rowVirtualizer = usePokeCardVirtualizer({
-        itemsArraySize: listTest.length,
-        itemsPerRow,
-        parentRef,
-        containerHeight: cardSize.height + rowsGap, 
-        extraRows
-    });
+  const [itemsPerRow, _setItemsPerRow] = useState(3)
+  const [preLoadedItems, _setPreLoadedItems] = useState (1)
 
-    const virtualRows = rowVirtualizer.getVirtualItems();
-    const totalHeight = rowVirtualizer.getTotalSize();
-    
+  const {parentRef, listVirtualizer, parentWidth} = usePokeCardVirtualizer ({
+    count: listTest.length,
+    overscan: preLoadedItems,
+    lanes: itemsPerRow,
+    gap: 20
+  })
 
-    return (
-        <div ref={parentRef} className="h-screen w-full overflow-y-auto contain-strict p-4">
-            <ul className="relative w-full" style={{height:`${totalHeight}px`}}>
-                {virtualRows.map((virtualRow) => {
-                    
-                    const startIndex = virtualRow.index * itemsPerRow;
-                    const endIndex = Math.min(startIndex + itemsPerRow, listTest.length);
-                    const visiblePokemonForRow = listTest.slice(startIndex, endIndex);
-
-                    return (
-                        <li
-                            key={virtualRow.index}
-                            className="absolute top-0 left-0 w-full flex gap-4 align-center justify-between"
-                            style={{
-                                height: `${virtualRow.size}px`,
-                                transform: `translateY(${virtualRow.start}px)`, 
-                            }}
-                        >
-
-                            {visiblePokemonForRow.map((pokemon, i) => (
-                                <PokeCard 
-                                    key={startIndex + i}
-                                    name={pokemon} 
-                                    cardSize={cardSize} 
-                                />
-                            ))}
-                        </li>
-                    );
-                })}
-            </ul>
-        </div>
-    );
+  return (
+    <div className="h-screen overflow-auto w-full p-4" ref={parentRef}>
+      <ul className="w-full relative"
+        style={{height: `${listVirtualizer.getTotalSize()}px`}}
+      >
+        {listVirtualizer.getVirtualItems().map(virtualItem => (
+            <PokeListCell
+                key={virtualItem.key}
+                virtualItem={virtualItem}
+                itemsPerRow={itemsPerRow}
+                parentWidth={parentWidth}
+                listTest={listTest}
+            />
+        ))}
+      </ul>
+    </div>
+  );
 }
 
-export default PokeList
+export default PokeList;

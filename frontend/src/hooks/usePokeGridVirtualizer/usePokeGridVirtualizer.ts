@@ -1,17 +1,25 @@
 import { useVirtualizer } from "@tanstack/react-virtual";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 interface UsePokeCardVirtualizerProps {
     count: number
-    itemsSize: number,
-    parentRef: React.RefObject<HTMLDivElement | null>
     lanes: number,
     overscan: number
     gap: number
 }
 
-function usePokeCardVirtualizer ({count, parentRef, itemsSize, lanes, overscan, gap}:UsePokeCardVirtualizerProps) {
+function usePokeCardVirtualizer ({count, lanes, overscan, gap}:UsePokeCardVirtualizerProps) {
 
-    const rowVirtualizer = useVirtualizer({
+    const parentRef = useRef<HTMLDivElement>(null);
+    const [parentWidth, setParentWidth] = useState(0);
+
+    //calcola la height delle card mantenedo una proporzione cardRatio
+    const cardRatio = 1.4
+    const math = Math.floor(parentWidth/lanes)*cardRatio
+    const itemsSize = parentWidth > 0 ? math : 300;
+
+    //crea il virtualizer
+    const listVirtualizer = useVirtualizer({
       count,
       overscan,
       gap,
@@ -19,9 +27,31 @@ function usePokeCardVirtualizer ({count, parentRef, itemsSize, lanes, overscan, 
       getScrollElement: () => parentRef.current,
       estimateSize: () => itemsSize,
     });
+ 
+    //calcola la width per parent in modo dinamico per rendere la griglia responsive
+    useEffect(() => {
+      if (!parentRef.current) return;
+    
+      const handleResize = (entries: ResizeObserverEntry[]) => {
+        for (let entry of entries) {
+          setParentWidth(entry.contentRect.width);
+        }
+      };
+    
+      const resizeObserver = new ResizeObserver(handleResize);
+      resizeObserver.observe(parentRef.current);
+    
+      setParentWidth(parentRef.current.offsetWidth);
+    
+      return () => resizeObserver.disconnect();
+    }, [parentRef]);
+    
+    // forza il virtualizer a ricalcolare le misure quando cambia la size del parent
+    useLayoutEffect(() => {
+      listVirtualizer.measure();
+    }, [itemsSize, listVirtualizer]);
 
-
-    return rowVirtualizer
+    return {listVirtualizer, parentRef, parentWidth}
 }
 
 export default usePokeCardVirtualizer

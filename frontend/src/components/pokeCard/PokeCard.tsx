@@ -1,17 +1,12 @@
 interface PokeCardProps {
     name?: string;
     image?: string;
-    cardSize: PokeCardSizeProps;
-}
-interface PokeCardSizeProps {
-    width: number;
-    height: number;
 }
 
 
-function PokeCard({ name, image, cardSize }: PokeCardProps) {
+function PokeCard({ name, image}: PokeCardProps) {
     return (
-        <div className={`bg-red-500 flex flex-col justify-between align-center`} style={{ width: `${cardSize.width}px`, height: `${cardSize.height}px` }}>
+        <div className={`bg-red-500 flex flex-col justify-between align-center w-full h-full`}>
             <picture>
                 <img src={image} alt={name} className="w-full h-full object-cover" />
             </picture>

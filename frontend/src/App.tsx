@@ -1,12 +1,11 @@
-// import PokeList from "./pages/pokeList/PokeList"
-import Testlist from "./Test"
+import PokeList from "./pages/pokeList/PokeList"
+
 
 function App() {
 
   return (
     <>
-      {/* <PokeList /> */}
-      <Testlist />
+      <PokeList />
     </>
   )
 }

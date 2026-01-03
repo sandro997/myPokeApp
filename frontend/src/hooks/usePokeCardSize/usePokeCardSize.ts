@@ -1,8 +1,13 @@
-interface UsePokeCardSizeProps {
+export interface UsePokeCardSizeProps {
     containerWidth: number;
     itemsPerRow: number;
     itemsGap: number;
     rowPadding: number;
+}
+
+export interface PokeCardSizeProps {
+    width: number;
+    height: number;
 }
 
 /**
@@ -29,7 +34,7 @@ function usePokeCardSize({ containerWidth, itemsPerRow, itemsGap, rowPadding }: 
     const width = Math.floor(cardSpace / itemsPerRow);
     const height = Math.floor(width * cardAspectRatio);
     
-    const cardSize = {
+    const cardSize: PokeCardSizeProps = {
         width,
         height
     }
