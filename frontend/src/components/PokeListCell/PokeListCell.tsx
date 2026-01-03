@@ -13,6 +13,8 @@ function PokeListCell({ virtualItem, itemsPerRow, parentWidth, pokemonList }: Po
 const pokemon = pokemonList[virtualItem.index];
 const pokemonName = pokemon?.name || 'Unknown';
 
+const pokemonId = pokemon.url.split('/').filter(Boolean).pop();
+const spriteUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png`;
 
   // Calcola la riga corrente e la posizione nella riga (laneInRow)
   const laneInRow = virtualItem.index % itemsPerRow;
@@ -31,7 +33,7 @@ const pokemonName = pokemon?.name || 'Unknown';
         transform: `translateY(${virtualItem.start}px)`, 
       }}
     >
-      <PokeCard name={pokemonName} />
+      <PokeCard name={pokemonName} image={spriteUrl}/>
     </li>
   );
 }

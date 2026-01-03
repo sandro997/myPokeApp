@@ -8,8 +8,6 @@ async function getPokeList() {
         )
         
         const { results, count } = response.data
-        console.log(`questo stampa ${count}`)
-        console.log(results.length)
         
         if (!results || !results.length) {
             console.warn('Nessun Pokémon trovato')
