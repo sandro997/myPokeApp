@@ -5,10 +5,14 @@ interface PokeListCellProps {
   virtualItem: VirtualItem;
   itemsPerRow: number;
   parentWidth: number;
-  listTest: string[];
+  pokemonList: Array<{ name: string; url: string }>
 } 
 
-function PokeListCell({ virtualItem, itemsPerRow, parentWidth, listTest }: PokeListCellProps) {
+function PokeListCell({ virtualItem, itemsPerRow, parentWidth, pokemonList }: PokeListCellProps) {
+
+const pokemon = pokemonList[virtualItem.index];
+const pokemonName = pokemon?.name || 'Unknown';
+
 
   // Calcola la riga corrente e la posizione nella riga (laneInRow)
   const laneInRow = virtualItem.index % itemsPerRow;
@@ -27,7 +31,7 @@ function PokeListCell({ virtualItem, itemsPerRow, parentWidth, listTest }: PokeL
         transform: `translateY(${virtualItem.start}px)`, 
       }}
     >
-      <PokeCard name={listTest[virtualItem.index]} />
+      <PokeCard name={pokemonName} />
     </li>
   );
 }

@@ -1,29 +1,40 @@
 import usePokeCardVirtualizer from "@hooks/usePokeGridVirtualizer/usePokeGridVirtualizer";
-import { useState } from "react";
 import PokeListCell from "@components/PokeListCell/PokeListCell";
+import { useEffect, useState } from "react";
+
+import getPokeList from "@hooks/useGetPokemon/useGetPokemon";
 
 
 function PokeList() {
+  const [pokeData, setPokeData] = useState({
+    list: [],
+    count: 0
+  });
+  const [_loading, setLoading] = useState(true);
 
-  //36 elementi
-  const listTest = [
-    'bulbasaur', 'pikachu', 'charmander', 'squirtle', 'eevee',
-    'jigglypuff', 'snorlax', 'test', 'test', 'test', 'test',
-    'test', 'bulbasaur', 'pikachu', 'charmander', 'squirtle', 'eevee',
-    'jigglypuff', 'snorlax', 'test', 'test', 'test', 'test',
-    'test', 'bulbasaur', 'pikachu', 'charmander', 'squirtle', 'eevee',
-    'jigglypuff', 'snorlax', 'test', 'test', 'test', 'test',
-    'test'
-  ];
-
+  const verticalGap = 20
   const [itemsPerRow, _setItemsPerRow] = useState(3)
-  const [preLoadedItems, _setPreLoadedItems] = useState (1)
+  const [preLoadedItems, _setPreLoadedItems] = useState (0)
+  
+  useEffect(() => {
+      async function loadPokemon() {
+          setLoading(true);
+          const data = await getPokeList();
+          setPokeData({
+            list: data.results,
+            count: data.count
+          });
+          setLoading(false);
+      }
+
+      loadPokemon();
+  }, []);
 
   const {parentRef, listVirtualizer, parentWidth} = usePokeCardVirtualizer ({
-    count: listTest.length,
+    count: pokeData.count,
     overscan: preLoadedItems,
     lanes: itemsPerRow,
-    gap: 20
+    gap: verticalGap
   })
 
   return (
@@ -37,7 +48,7 @@ function PokeList() {
                 virtualItem={virtualItem}
                 itemsPerRow={itemsPerRow}
                 parentWidth={parentWidth}
-                listTest={listTest}
+                pokemonList={pokeData.list}
             />
         ))}
       </ul>
