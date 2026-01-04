@@ -74,11 +74,11 @@ function PokeList() {
       >
         {listVirtualizer.getVirtualItems().map(virtualItem => (
             <PokeListCell
-                key={virtualItem.key}
-                virtualItem={virtualItem}
-                itemsPerRow={itemsPerRow}
-                parentWidth={parentWidth}
-                pokemonList={pokeData.list}
+              key={virtualItem.key}
+              virtualItem={virtualItem}
+              itemsPerRow={itemsPerRow}
+              parentWidth={parentWidth}
+              pokemonList={pokeData.list}
             />
         ))}
       </ul>
