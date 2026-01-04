@@ -6,4 +6,6 @@ export const POKE_SPRITE_ENDPOINT = (pokemonId:string|undefined) => `https://raw
 export const POKE_CONFIG = {
     TIMEOUT: 10000,
     RETRY_ATTEMPTS: 3,
+    LIMIT: 20,
+    OFFSET: 0
 }

@@ -16,7 +16,6 @@ function PokeList() {
     next: null
   });
   const [loading, setLoading] = useState(true);
-  const verticalGap = 20
   const [itemsPerRow, _setItemsPerRow] = useState(3)
   const [preLoadedItems, _setPreLoadedItems] = useState (5)
   
@@ -65,7 +64,6 @@ function PokeList() {
     count: pokeData.list.length,
     overscan: preLoadedItems,
     lanes: itemsPerRow,
-    gap: verticalGap
   })
 
   //TODO: verificare github tankstack per il flushsync

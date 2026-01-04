@@ -5,30 +5,37 @@ interface UsePokeCardVirtualizerProps {
     count: number
     lanes: number,
     overscan: number
-    gap: number
 }
 
-function usePokeCardVirtualizer ({count, lanes, overscan, gap}:UsePokeCardVirtualizerProps) {
+interface DefaultSettings{
+  cardRatio: number,
+  verticalGap: number
+}
 
+function usePokeCardVirtualizer ({count, lanes, overscan}:UsePokeCardVirtualizerProps) {
+  
+    const defaultSettings: DefaultSettings = {
+      cardRatio: 1.4,
+      verticalGap: 20
+    }
     const parentRef = useRef<HTMLDivElement>(null);
     const [parentWidth, setParentWidth] = useState(0);
 
-    //calcola la height delle card mantenedo una proporzione cardRatio
-    const cardRatio = 1.4
-    const aspectedHeight:number = Math.floor(parentWidth/lanes)*cardRatio
+    //calcola la height delle card mantenedo una proporzione (cardRatio)
+    const aspectedHeight:number = Math.floor(parentWidth/lanes)*defaultSettings.cardRatio
     const itemsSize:number = parentWidth > 0 ? aspectedHeight : 300;
 
     //crea il virtualizer
     const listVirtualizer = useVirtualizer({
       count,
       overscan,
-      gap,
+      gap: defaultSettings.verticalGap,
       lanes, 
       getScrollElement: () => parentRef.current,
       estimateSize: () => itemsSize,
     });
  
-    //calcola la width per parent in modo dinamico per rendere la griglia responsive
+    //calcola la width del parent in modo dinamico e salva il valore in uno state
     useEffect(() => {
       if (!parentRef.current) return;
     
