@@ -1,5 +1,6 @@
 import type { VirtualItem } from "@tanstack/react-virtual";
 import PokeCard from "@components/pokeCard/PokeCard";
+import { POKE_SPRITE_ENDPOINT } from "@api/pokeApi";
 
 interface PokeListCellProps {
   virtualItem: VirtualItem;
@@ -10,11 +11,12 @@ interface PokeListCellProps {
 
 function PokeListCell({ virtualItem, itemsPerRow, parentWidth, pokemonList }: PokeListCellProps) {
 
-const pokemon = pokemonList[virtualItem.index];
-const pokemonName = pokemon?.name || 'Unknown';
+  //otteniamo nome, id e sprite del singolo pokemon
+  const pokemon = pokemonList[virtualItem.index];
+  const pokemonName = pokemon?.name || 'Unknown';
 
-const pokemonId = pokemon.url.split('/').filter(Boolean).pop();
-const spriteUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png`;
+  const pokemonId = pokemon?.url.split('/').filter(Boolean).pop();
+  const spriteUrl = POKE_SPRITE_ENDPOINT(pokemonId);
 
   // Calcola la riga corrente e la posizione nella riga (laneInRow)
   const laneInRow = virtualItem.index % itemsPerRow;

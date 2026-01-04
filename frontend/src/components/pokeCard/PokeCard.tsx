@@ -3,7 +3,6 @@ interface PokeCardProps {
     image?: string;
 }
 
-
 function PokeCard({ name, image}: PokeCardProps) {
     return (
         <div className={`flex flex-col justify-between align-center w-full h-full`}>
