@@ -1,4 +1,4 @@
-import PokeList from "./pages/pokeList/PokeList"
+import PokeList from "./components/PokeList/PokeList"
 
 
 function App() {
