@@ -1,5 +1,5 @@
 import usePokeCardVirtualizer from "@hooks/usePokeGridVirtualizer/usePokeGridVirtualizer";
-import PokeListCell from "@components/PokeListCell/PokeListCell";
+import PokeListCell from "@components/pokeListCell/PokeListCell";
 import getPokeList from "@hooks/useGetPokemon/useGetPokemon";
 import { useEffect, useState } from "react";
 
