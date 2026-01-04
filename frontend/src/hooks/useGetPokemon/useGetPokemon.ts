@@ -7,10 +7,10 @@ interface GetPokeListProps {
 }
 
 async function getPokeList({limit = 20, nextEndpoint}:GetPokeListProps) {
-    const newList = nextEndpoint ? nextEndpoint : POKE_LIST_ENDPOINT (0, limit) 
+    const endpoint = nextEndpoint ? nextEndpoint : POKE_LIST_ENDPOINT (0, limit) 
     try {
         const response = await axios.get(
-            newList,
+            endpoint,
             { timeout:POKE_CONFIG.TIMEOUT }
         )
         

@@ -15,8 +15,8 @@ function usePokeCardVirtualizer ({count, lanes, overscan, gap}:UsePokeCardVirtua
 
     //calcola la height delle card mantenedo una proporzione cardRatio
     const cardRatio = 1.4
-    const aspectedHeight = Math.floor(parentWidth/lanes)*cardRatio
-    const itemsSize = parentWidth > 0 ? aspectedHeight : 300;
+    const aspectedHeight:number = Math.floor(parentWidth/lanes)*cardRatio
+    const itemsSize:number = parentWidth > 0 ? aspectedHeight : 300;
 
     //crea il virtualizer
     const listVirtualizer = useVirtualizer({

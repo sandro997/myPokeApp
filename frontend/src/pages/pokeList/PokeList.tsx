@@ -20,7 +20,7 @@ function PokeList() {
   const [itemsPerRow, _setItemsPerRow] = useState(3)
   const [preLoadedItems, _setPreLoadedItems] = useState (5)
   
-  //otteniamo i dati
+  //otteniamo i dati al mount
   useEffect(() => {
       async function loadPokemon() {
           setLoading(true);
@@ -36,6 +36,7 @@ function PokeList() {
       loadPokemon();
   }, []);
 
+  // fornisce il nuovo edpoint per ottenere i pokemon a gruppi di 20
   const loadMore = async () => {
     if (!pokeData.next || loading) return;
   
@@ -58,7 +59,7 @@ function PokeList() {
       loadMore();
     }
   };
-  
+
   //virtualizer
   const {parentRef, listVirtualizer, parentWidth} = usePokeCardVirtualizer ({
     count: pokeData.list.length,
@@ -67,8 +68,7 @@ function PokeList() {
     gap: verticalGap
   })
 
-//TODO: verificare github tankstack per il flushsync
-
+  //TODO: verificare github tankstack per il flushsync
   return (
     <div className="h-2/3 overflow-auto w-full p-4" ref={parentRef} onScroll={handleScroll}>
       <ul className="w-full relative"
