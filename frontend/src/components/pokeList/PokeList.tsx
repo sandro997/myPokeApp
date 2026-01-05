@@ -1,13 +1,8 @@
-import usePokeCardVirtualizer from "@hooks/usePokeGridVirtualizer/usePokeGridVirtualizer";
-import PokeListCell from "@components/pokeListCell/PokeListCell";
-import getPokeList from "@hooks/useGetPokemon/useGetPokemon";
+import usePokeCardVirtualizer from "~hooks/usePokeGridVirtualizer/usePokeGridVirtualizer";
+import PokeListCell from "~components/pokeListCell/PokeListCell";
+import getPokeList from "~hooks/useGetPokemon/useGetPokemon";
 import { useEffect, useState } from "react";
-
-interface PokeData {
-  list: Array<{ name: string; url: string }>;
-  count: number;
-  next: string | null;
-}
+import type {PokeData} from "~types/pokeTypes"
 
 function PokeList() {
   const [pokeData, setPokeData] = useState<PokeData>({

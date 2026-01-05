@@ -1,13 +1,6 @@
-import type { VirtualItem } from "@tanstack/react-virtual";
-import PokeCard from "@components/pokeCard/PokeCard";
-import { POKE_SPRITE_ENDPOINT } from "@api/pokeApi";
-
-interface PokeListCellProps {
-  virtualItem: VirtualItem;
-  itemsPerRow: number;
-  parentWidth: number;
-  pokemonList: Array<{ name: string; url: string }>
-} 
+import PokeCard from "~components/pokeCard/PokeCard";
+import { POKE_SPRITE_ENDPOINT } from "~api/pokeApi";
+import type {PokeListCellProps} from "~types/pokeTypes"
 
 function PokeListCell({ virtualItem, itemsPerRow, parentWidth, pokemonList }: PokeListCellProps) {
 

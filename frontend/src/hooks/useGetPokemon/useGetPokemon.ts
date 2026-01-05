@@ -1,11 +1,6 @@
 import axios from "axios";
-import { POKE_LIST_ENDPOINT, POKE_CONFIG } from "@api/pokeApi"
-
-interface GetPokeListProps {
-    offset?: number,
-    limit?: number,
-    nextEndpoint?: string
-}
+import { POKE_LIST_ENDPOINT, POKE_CONFIG } from "~api/pokeApi"
+import type {GetPokeListProps} from '~types/pokeTypes'
 
 async function getPokeList({offset = POKE_CONFIG.OFFSET, limit = POKE_CONFIG.LIMIT, nextEndpoint}:GetPokeListProps) {
     const endpoint = nextEndpoint ? nextEndpoint : POKE_LIST_ENDPOINT (offset, limit) 
