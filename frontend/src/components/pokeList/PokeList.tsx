@@ -1,12 +1,18 @@
-import usePokeCardVirtualizer from "~hooks/usePokeGridVirtualizer/usePokeGridVirtualizer";
+import { useEffect, useState } from "react";
 import PokeListCell from "~components/pokeListCell/PokeListCell";
 import getPokeList from "~hooks/useGetPokemon/useGetPokemon";
-import { useEffect, useState } from "react";
-import type {PokeData} from "~types/pokeTypes"
+import usePokeCardVirtualizer from "~hooks/usePokeGridVirtualizer/usePokeGridVirtualizer";
+import type {PokeData, PokeStore} from "~types/pokeTypes"
+import { usePokeStore } from "~stores/usePokeStore";
 
 function PokeList() {
+  //estraiamo i metodi dallo store
+  const pokeStore: PokeStore = {
+    list: usePokeStore((state) => state.list),
+    updateList: usePokeStore((state) => state.updateList)
+  }
+
   const [pokeData, setPokeData] = useState<PokeData>({
-    list: [],
     count: 0,
     next: null
   });
@@ -14,33 +20,41 @@ function PokeList() {
   const [itemsPerRow, _setItemsPerRow] = useState(3)
   const [preLoadedItems, _setPreLoadedItems] = useState (5)
   
+
   //otteniamo i dati al mount
   useEffect(() => {
       async function loadPokemon() {
+
           setLoading(true);
+        
           const data = await getPokeList({});
+        
+          pokeStore.updateList (data.results)
+        
           setPokeData({
-            list: data.results,
             count: data.count,
             next: data.next
           });
+        
           setLoading(false);
       }
 
       loadPokemon();
   }, []);
 
-  // fornisce il nuovo edpoint per ottenere i pokemon a gruppi di 20
+  // fornisce il nuovo edpoint per ottenere i pokemon a gruppi di 20 e aggiorna lo store
   const loadMore = async () => {
     if (!pokeData.next || loading) return;
   
     setLoading(true);
+    
     const data = await getPokeList({ nextEndpoint: pokeData.next });
+    pokeStore.updateList([...pokeStore.list, ...data.results])
     setPokeData(prev => ({
-      list: [...prev.list, ...data.results],
-      count: data.count,
+      ...prev,
       next: data.next
     }));
+    
     setLoading(false);
   }
 
@@ -56,7 +70,7 @@ function PokeList() {
 
   //virtualizer
   const {parentRef, listVirtualizer, parentWidth} = usePokeCardVirtualizer ({
-    count: pokeData.list.length,
+    count: pokeStore.list.length,
     overscan: preLoadedItems,
     lanes: itemsPerRow,
   })
@@ -73,7 +87,7 @@ function PokeList() {
               virtualItem={virtualItem}
               itemsPerRow={itemsPerRow}
               parentWidth={parentWidth}
-              pokemonList={pokeData.list}
+              pokemonList={pokeStore.list}
             />
         ))}
       </ul>
