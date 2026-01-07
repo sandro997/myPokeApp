@@ -1,6 +1,7 @@
 import axios from "axios";
 import { POKE_LIST_ENDPOINT, POKE_CONFIG } from "~api/pokeApi"
-import type {GetPokeListProps} from '~types/pokeTypes'
+import type {GetPokeListProps, PokeApiData} from '~types/pokeTypes'
+
 
 async function getPokeList({offset = POKE_CONFIG.OFFSET, limit = POKE_CONFIG.LIMIT, nextEndpoint}:GetPokeListProps) {
     const endpoint = nextEndpoint ? nextEndpoint : POKE_LIST_ENDPOINT (offset, limit) 
@@ -8,7 +9,7 @@ async function getPokeList({offset = POKE_CONFIG.OFFSET, limit = POKE_CONFIG.LIM
         const response = await axios.get( endpoint,
             { timeout:POKE_CONFIG.TIMEOUT })
         
-        const { results, count, next } = response.data
+        const { results, count, next }:PokeApiData = response.data;
 
         if (results.length === 0) {
             console.log('Nessun Pokémon trovato')

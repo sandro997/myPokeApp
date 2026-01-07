@@ -17,34 +17,36 @@ export interface PokeStore {
     count: number
     next: string
     status: 'idle' | 'success' | 'error'
+    
     updateList: (newList: CompletePokemon[]) => void
     updateCount: (newCount: number) => void
     updateNext: (newNext: string) => void
 }
 
 export interface GetPokeListProps {
-    offset?: number,
-    limit?: number,
+    offset?: number
+    limit?: number
     nextEndpoint?: string
 }
 
 export interface I_POKE_CONFIG {
-    TIMEOUT: number,
-    RETRY_ATTEMPTS: number,
-    LIMIT: number,
+    TIMEOUT: number
+    RETRY_ATTEMPTS: number
+    LIMIT: number
     OFFSET: number
 }
 
 export interface PokeListCellProps {
-    virtualItem: VirtualItem;
-    itemsPerRow: number;
-    parentWidth: number;
+    virtualItem: VirtualItem
+    itemsPerRow: number
+    parentWidth: number
     pokemonList: CompletePokemon[]
 }
 
-export interface PokeData {
-    count: number;
-    next: string | null;
+export interface PokeApiData {
+    results: PokeItem[]
+    count: number
+    next: string | null
 }
 
 export type TYPE_POKE_LIST_ENDPOINT = (arg0:number, arg1:number) => string
