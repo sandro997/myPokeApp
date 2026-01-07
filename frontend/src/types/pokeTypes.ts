@@ -1,13 +1,25 @@
 import type { VirtualItem } from "@tanstack/react-virtual";
 
 export interface PokeItem {
-    name: string,
+    name: string
     url: string
 }
 
+export interface CompletePokemon {
+    id: number
+    name: string
+    url: string
+    sprite: string
+}
+
 export interface PokeStore {
-    list: PokeItem[]
-    updateList: (newList: PokeItem[]) => void
+    list: CompletePokemon[]
+    count: number
+    next: string
+    status: 'idle' | 'success' | 'error'
+    updateList: (newList: CompletePokemon[]) => void
+    updateCount: (newCount: number) => void
+    updateNext: (newNext: string) => void
 }
 
 export interface GetPokeListProps {
@@ -27,7 +39,7 @@ export interface PokeListCellProps {
     virtualItem: VirtualItem;
     itemsPerRow: number;
     parentWidth: number;
-    pokemonList: PokeItem[]
+    pokemonList: CompletePokemon[]
 }
 
 export interface PokeData {
@@ -36,4 +48,4 @@ export interface PokeData {
 }
 
 export type TYPE_POKE_LIST_ENDPOINT = (arg0:number, arg1:number) => string
-export type TYPE_POKE_SPRITE_ENDPOINT = (arg0: string|undefined) => string
+export type TYPE_POKE_SPRITE_ENDPOINT = (arg0: number|undefined) => string

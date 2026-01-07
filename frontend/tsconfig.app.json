@@ -31,7 +31,8 @@
       "~hooks/*": ["src/hooks/*"],
       "~api/*": ["src/config/api/*"],
       "~types/*": ["src/types/*"],
-      "~stores/*": ["src/stores/*"]
+      "~stores/*": ["src/stores/*"],
+      "~managers/*": ["src/managers/*"]
     }
   },
   "include": ["src"]
