@@ -32,7 +32,8 @@
       "~api/*": ["src/config/api/*"],
       "~types/*": ["src/types/*"],
       "~stores/*": ["src/stores/*"],
-      "~managers/*": ["src/managers/*"]
+      "~managers/*": ["src/managers/*"],
+      "~helpers/*": ["src/helpers/*"],
     }
   },
   "include": ["src"]

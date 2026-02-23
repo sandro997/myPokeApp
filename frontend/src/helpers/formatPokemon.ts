@@ -1,7 +1,7 @@
 import { POKE_SPRITE_ENDPOINT } from "~api/pokeApi";
 import type {PokeItem} from "~types/pokeTypes"
 
-function useProcessApiData () {
+function formatPokemon () {
 
   //mette la prima lettera maiuscola
   const pokemonName = (name:string) => name.charAt(0).toUpperCase() + name.slice(1)
@@ -13,7 +13,7 @@ function useProcessApiData () {
   const pokemonSprite = (id: number) => POKE_SPRITE_ENDPOINT(id);
 
   //crea l'array che andrà a fare la lista
-  const completePokemon = (data:PokeItem[]) => data.map(item => {
+  const pokemonPreview = (data:PokeItem[]) => data.map(item => {
     const id = pokemonId(item.url);
     return {
       id,
@@ -23,7 +23,7 @@ function useProcessApiData () {
     };
   });
 
-  return {pokemonName, pokemonSprite, pokemonId, completePokemon}
+  return {pokemonName, pokemonSprite, pokemonId, pokemonPreview}
 }
 
-export default useProcessApiData
+export default formatPokemon

@@ -16,11 +16,14 @@ export interface PokeStore {
     list: CompletePokemon[]
     count: number
     next: string
-    status: 'idle' | 'success' | 'error'
+    status: 'idle' | 'fetching' | 'saving' | 'success' | 'error'
+    error: string | null
     
     updateList: (newList: CompletePokemon[]) => void
     updateCount: (newCount: number) => void
     updateNext: (newNext: string) => void
+    updateStatus: (newStatus: 'idle' | 'fetching' | 'saving' | 'success' | 'error') => void
+    updateError: (newError: string | null) => void
 }
 
 export interface GetPokeListProps {

@@ -2,8 +2,7 @@ import axios from "axios";
 import { POKE_LIST_ENDPOINT, POKE_CONFIG } from "~api/pokeApi"
 import type {GetPokeListProps, PokeApiData} from '~types/pokeTypes'
 
-
-async function getPokeList({offset = POKE_CONFIG.OFFSET, limit = POKE_CONFIG.LIMIT, nextEndpoint}:GetPokeListProps) {
+export async function getPokeList({offset = POKE_CONFIG.OFFSET, limit = POKE_CONFIG.LIMIT, nextEndpoint}:GetPokeListProps) {
     const endpoint = nextEndpoint ? nextEndpoint : POKE_LIST_ENDPOINT (offset, limit) 
     try {
         const response = await axios.get( endpoint,
@@ -17,5 +16,3 @@ async function getPokeList({offset = POKE_CONFIG.OFFSET, limit = POKE_CONFIG.LIM
         return { results: [], count: 0, next: null }
     }
 }
-
-export default getPokeList

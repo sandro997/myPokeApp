@@ -9,12 +9,13 @@ function PokeList() {
   //TODO: cambiare manager in helper
   const [itemsPerRow, _setItemsPerRow] = useState<number>(3);
   const [preLoadedItems, _setPreLoadedItems] = useState<number> (5);
-  
-  const {isLoading, loadPokemon, loadMore} = usePokeListManager();
-  
+
+  const {loadPokemon, loadMore} = usePokeListManager();
+
   //estraiamo i dati dallo store
   const list = usePokeStore((state) => state.list);
   const next = usePokeStore((state) => state.next);
+  const status = usePokeStore((state) => state.status);
 
   //otteniamo i dati al mount
   useEffect(() => {
@@ -25,7 +26,7 @@ function PokeList() {
     const scrollElement = e.currentTarget;
     const scrollPercentage = (scrollElement.scrollHeight - scrollElement.scrollTop) / scrollElement.scrollHeight;
     
-    if (scrollPercentage < 0.4 && next && !isLoading) {
+    if (scrollPercentage < 0.4 && next && status === 'idle') {
       loadMore();
     }
   };
