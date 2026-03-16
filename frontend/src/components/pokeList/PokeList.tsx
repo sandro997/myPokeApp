@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
 import { usePokeStore } from "~stores/usePokeStore";
-import usePokeListManager from "~managers/usePokeListManager"
+import pokeListManager from "~managers/pokeListManager";
 import PokeListCell from "~components/pokeListCell/PokeListCell";
 import usePokeCardVirtualizer from "~hooks/usePokeGridVirtualizer/usePokeGridVirtualizer";
 
 function PokeList() {
 
-  //TODO: cambiare manager in helper
   const [itemsPerRow, _setItemsPerRow] = useState<number>(3);
   const [preLoadedItems, _setPreLoadedItems] = useState<number> (5);
 
-  const {loadPokemon, loadMore} = usePokeListManager();
+  const {loadPokemon, loadMore} = pokeListManager();
 
   //estraiamo i dati dallo store
   const list = usePokeStore((state) => state.list);

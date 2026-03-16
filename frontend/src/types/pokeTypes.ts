@@ -5,24 +5,35 @@ export interface PokeItem {
     url: string
 }
 
-export interface CompletePokemon {
+export interface PreviewPokemon {
     id: number
     name: string
     url: string
     sprite: string
 }
 
+//TODO: spostare in un file apposito se aumentano gli store
+export const pokeStoreStatus = {
+    idle: 'idle',
+    fetching: 'fetching',
+    saving: 'saving',
+    success: 'success',
+    error: 'error',
+} as const;
+
+export type PokeStoreStatusEnum = (typeof pokeStoreStatus)[keyof typeof pokeStoreStatus];
+
 export interface PokeStore {
-    list: CompletePokemon[]
+    list: PreviewPokemon[]
     count: number
     next: string
-    status: 'idle' | 'fetching' | 'saving' | 'success' | 'error'
+    status: PokeStoreStatusEnum
     error: string | null
     
-    updateList: (newList: CompletePokemon[]) => void
+    updateList: (newList: PreviewPokemon[]) => void
     updateCount: (newCount: number) => void
     updateNext: (newNext: string) => void
-    updateStatus: (newStatus: 'idle' | 'fetching' | 'saving' | 'success' | 'error') => void
+    updateStatus: (newStatus: PokeStoreStatusEnum) => void
     updateError: (newError: string | null) => void
 }
 
@@ -43,7 +54,7 @@ export interface PokeListCellProps {
     virtualItem: VirtualItem
     itemsPerRow: number
     parentWidth: number
-    pokemonList: CompletePokemon[]
+    pokemonList: PreviewPokemon[]
 }
 
 export interface PokeApiData {

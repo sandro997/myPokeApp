@@ -1,8 +1,9 @@
-import getPokeList from "~hooks/useGetPokemon/useGetPokemon";
-import formatPokemon from "~helpers/formatPokemon"
 import { usePokeStore } from "~stores/usePokeStore";
+import { getPokeList } from "~helpers/getPokemon";
+import formatPokemon from "~helpers/formatPokemon"
+import { pokeStoreStatus } from "~types/pokeTypes";
 
-function usePokeListManager () {
+function pokeListManager () {
     const updateList = usePokeStore((state) => state.updateList);
     const updateCount = usePokeStore((state) => state.updateCount);
     const updateNext = usePokeStore((state) => state.updateNext);
@@ -15,41 +16,46 @@ function usePokeListManager () {
     const {pokemonPreview} = formatPokemon()
 
     async function loadPokemon() {
-        updateStatus('fetching');
-        //otteniamo i dati
+        //verifica se zustand ha già preso la lista dal localStorage
+        if (list.length > 0) {
+            return;
+          }
+        
+        updateStatus(pokeStoreStatus.fetching);
+        //fetch dei dati
         const data = await getPokeList({});
 
         if (data.results.length === 0) {
-            updateStatus('error');
+            updateStatus(pokeStoreStatus.error);
             return;
         }
 
-        //li formatiamo e salviamo nello store
+        //li formattiamo e salviamo nello store
         updateList (pokemonPreview(data.results))
         updateCount (data.count)
         updateNext(data.next ?? '');
 
-        updateStatus('idle');
+        updateStatus(pokeStoreStatus.idle);
     }
 
     async function loadMore () {
-        if (!next || status !== 'idle') return;
+        if (!next || status !== pokeStoreStatus.idle) return;
 
-        updateStatus('fetching');
+        updateStatus(pokeStoreStatus.fetching);
 
         const data = await getPokeList({ nextEndpoint: next });
         if (data.results.length === 0) {
-            updateStatus('error');
+            updateStatus(pokeStoreStatus.error);
             return;
         }
 
         updateList([... list, ...pokemonPreview(data.results)]);
         updateNext(data.next ?? '')
 
-        updateStatus('idle');
+        updateStatus(pokeStoreStatus.idle);
     }
 
     return {loadPokemon, loadMore}
 }
 
-export default usePokeListManager
+export default pokeListManager
