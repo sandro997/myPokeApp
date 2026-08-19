@@ -33,6 +33,9 @@ function usePokeCardVirtualizer ({count, lanes, overscan}:UsePokeCardVirtualizer
       lanes, 
       getScrollElement: () => parentRef.current,
       estimateSize: () => itemsSize,
+
+      //react non forza più l'aggiornamento immediato del dom ma dopo il render, rimuovere se lo scroll non è fluido
+      useFlushSync: false,
     });
  
     //calcola la width del parent in modo dinamico e salva il valore in uno state
