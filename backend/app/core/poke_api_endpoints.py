@@ -10,8 +10,7 @@ def poke_list_endpoint(params) -> str:
     Genera l'URL dell'endpoint dell'API Pokémon per ottenere una lista di Pokémon.
     
     Args:
-        offset (int): Numero di elementi da saltare. Default: 0.
-        limit (int): Numero massimo di Pokémon da restituire. Default: 20.
+        params (ListPaginationParams): Oggetto con offset e limit per la paginazione.
     
     Returns:
         str: URL completo dell'endpoint.
